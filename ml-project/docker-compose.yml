@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+    ml-backend:
+        container_name: ml-backend
+        build: ./backend
+        ports:
+            - 5000:5000
+        volumes:
+            - model:/src/model
+        depends_on:
+            - ml-training
+    ml-frontend:
+        container_name: ml-frontend
+        build: ./frontend
+        ports:
+            - 3000:3000
+    ml-training:
+        container_name: ml-training
+        build: ./training
+        volumes:
+            - model:/src/model
+            - images:/src/imgs
+            - data:/src/data
+volumes:
+    model:
+    images:
+    data:

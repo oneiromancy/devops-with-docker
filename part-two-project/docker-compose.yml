@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+    backend: 
+        container_name: backend
+        build: ./backend
+        environment:
+            REDIS_HOST: redis
+            POSTGRES_HOST: postgres
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_DATABASE: postgres
+            REQUEST_ORIGIN: http://localhost:80
+        depends_on:
+            - redis
+            - postgres
+    frontend:
+        container_name: frontend
+        build: ./frontend
+        environment:
+            REACT_APP_BACKEND_URL: http://localhost:80
+    redis:
+        container_name: redis
+        image: redis
+        restart: unless-stopped
+        volumes:
+            - ./redis:/data
+    postgres:
+        container_name: postgres
+        image: postgres
+        environment:
+            # POSTGRES_PASSWORD is the only one required for database initialisation
+            POSTGRES_HOST: postgres
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_DATABASE: postgres
+        volumes:
+            - ./database:/var/lib/postgresql/data
+    nginx:
+        container_name: nginx
+        image: nginx
+        ports:
+            - 80:80
+        volumes:
+            - ./nginx.config:/etc/nginx/nginx.conf

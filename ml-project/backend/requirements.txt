@@ -1,0 +1,9 @@
+numpy==1.14.5
+flask==1.0.2
+python-dotenv==0.9.1
+keras==2.2.4
+tensorflow==1.10.1
+flask-cors==3.0.6
+Pillow==5.3.0
+imageio==2.4.1
+scipy==1.1.0
